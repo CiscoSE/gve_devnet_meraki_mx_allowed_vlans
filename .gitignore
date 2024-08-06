@@ -1,0 +1,11 @@
+# Environment
+venv
+
+# Sensitive File
+.env
+src/config/settings.py
+
+# IDE files
+.idea
+__pycache__
+.DS_Store
