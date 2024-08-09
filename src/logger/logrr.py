@@ -31,6 +31,7 @@ from rich.console import Console
 from rich.logging import RichHandler
 from rich.panel import Panel
 from rich.pretty import Pretty
+from rich.progress import Progress
 from rich.table import Table
 
 from .custom_themes import ct
@@ -159,7 +160,7 @@ class LoggerManager:
         panel = Panel.fit(*args, **kwargs)
         self.tsp(panel)
 
-    def setup(self):
+    def setup(self, console=None, logger_name=__name__):
         """Set up the logger with handlers for both console and file output."""
         log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
@@ -172,15 +173,16 @@ class LoggerManager:
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter(log_format))
 
-        console_handler = RichHandler(console=self.console)
+        console_handler = RichHandler(console=console if console else self.console)
         console_handler.setLevel(logging.DEBUG)
 
-        self.listener = logging.handlers.QueueListener(
-            self.log_queue, console_handler, file_handler, respect_handler_level=True
-        )
-        self.listener.start()
+        if not self.listener:
+            self.listener = logging.handlers.QueueListener(
+                self.log_queue, console_handler, file_handler, respect_handler_level=True
+            )
+            self.listener.start()
 
-        logger = logging.getLogger(__name__)
+        logger = logging.getLogger(logger_name)
         logger.setLevel(logging.DEBUG)
         logger.addHandler(self.queue_handler)
 
@@ -189,6 +191,7 @@ class LoggerManager:
     def shutdown(self):
         """Stop the logging listener."""
         self.listener.stop()
+        logging.shutdown()  # Properly shutdown logging
 
     def print_list_as_rich_table(self, data_list: list, title: str, headers=None):
         """Display a list of dictionaries in a rich table format."""
@@ -290,6 +293,21 @@ class LoggerManager:
         """
         inspect(obj, console=self.console, methods=True)
         self.tsp(f"Inspected object: {type(obj).__name__}", style="debug", level="debug")
+
+    def yield_progress_instance(self) -> Progress:
+        """
+        Yield a progress object for use in a with statement.
+        :return: Progress object
+        """
+        return Progress(console=self.console)
+
+    def yield_progress_logger_instance(self, console: Console) -> logging.Logger:
+        """
+        Yield a logger object, using Rich builders and provided Console
+        :param console: Console object
+        :return: Logger object
+        """
+        return self.setup(console=console)
 
 
 lm = LoggerManager()

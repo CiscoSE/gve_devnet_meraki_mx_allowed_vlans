@@ -9,3 +9,6 @@ src/config/settings.py
 .idea
 __pycache__
 .DS_Store
+
+# CSV File
+src/mx_allowed_vlans.csv

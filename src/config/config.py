@@ -34,9 +34,10 @@ class Config:
     SRC_PATH: ClassVar[pathlib.Path] = pathlib.Path(__file__).parents[1]
     README_FILE_PATH: ClassVar[str] = str(pathlib.Path(__file__).parents[2] / 'README.md')
     ENV_FILE_PATH: ClassVar[str] = str(pathlib.Path(__file__).parents[2] / '.env')
+    SETTINGS_FILE_PATH: ClassVar[str] = str(pathlib.Path(__file__).parents[0] / 'settings.py')
 
     # App Config
-    APP_NAME: ClassVar[str] = 'Meraki Policy Object/Group, MX Rule Bulk Creation'
+    APP_NAME: ClassVar[str] = 'Meraki Network Appliance Bulk Port Configuration'
     APP_VERSION: ClassVar[str] = '1.0.0'
 
     def __init__(self):
