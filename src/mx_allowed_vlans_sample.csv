@@ -1,4 +1,4 @@
-Network Name,portId,allowedVlans,type
+Network,portId,allowedVlans,type
 SampleA,4,"10,15",trunk
 SampleB,4,"10,15",trunk
 SampleC,4,100,trunk

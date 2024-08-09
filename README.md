@@ -27,7 +27,7 @@ In order to use the Meraki API, you need to enable the API for your organization
 ## CSV Files
 1 input CSV File is required (must be in the `src` folder!). By default `mx_allowed_vlans_sample.csv` is selected (configured in `src` > `config` > `settings.py`). A CSV file can also be provided via CLI arguments (see `Usage` section).
 
-The CSV file **MUST** include the `Network Name` and `portId` columns. All additional CSV Column Headers come from the Meraki [API Call](https://developer.cisco.com/meraki/api-v1/update-network-appliance-port/). The column header names must match the API field names exactly and follow the rules specified in the documentation (they are passed as is into the API).
+The CSV file **MUST** include the `Network` and `portId` columns. All additional CSV Column Headers come from the Meraki [API Call](https://developer.cisco.com/meraki/api-v1/update-network-appliance-port/). The column header names must match the API field names exactly and follow the rules specified in the documentation (they are passed as is into the API).
 
 **Note**: The included example file shows configuring explicit Allowed VLANs on port 4 for various networks.
 

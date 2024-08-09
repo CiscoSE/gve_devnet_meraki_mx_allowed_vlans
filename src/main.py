@@ -69,7 +69,7 @@ def main():
 
         for appliance_port_config in appliance_port_configs:
             # Extract Network Name and Port ID
-            net_name = appliance_port_config.get('Network Name', 'Unknown')
+            net_name = appliance_port_config.get('Network', 'Unknown')
             port_id = appliance_port_config.get('portId', 'Unknown')
 
             log_p.info(f"Processing `{net_name}`, `port {port_id}` ({counter} of {len(appliance_port_configs)}):")
@@ -84,7 +84,7 @@ def main():
                 continue
             else:
                 net_id = meraki_api.net_name_to_ids[net_name]
-                del appliance_port_config['Network Name']
+                del appliance_port_config['Network']
 
             # Check Port ID provided, extract value
             if 'portId' not in appliance_port_config or port_id == 'Unknown':
