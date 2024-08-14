@@ -51,7 +51,7 @@ def main():
     try:
         with open(input_file_path, mode='r') as file:
             reader = csv.DictReader(file)
-            appliance_port_configs = list(reader)
+            appliance_port_configs = [row for row in reader if any(row.values())] # Filter out any blank rows
         lm.lnp(f"Read in {len(appliance_port_configs)} Appliance Port Configs", "success")
         time.sleep(1)
     except FileNotFoundError as e:
@@ -81,6 +81,7 @@ def main():
             # Sanity Check Network Name in Network Name to ID Mapping, extract ID
             if net_name not in meraki_api.net_name_to_ids or net_name == 'Unknown':
                 log_p.error(f"Network Name `{net_name}` not Found in Network Name to ID Mapping\n")
+                time.sleep(0.3)
                 continue
             else:
                 net_id = meraki_api.net_name_to_ids[net_name]
@@ -89,6 +90,7 @@ def main():
             # Check Port ID provided, extract value
             if 'portId' not in appliance_port_config or port_id == 'Unknown':
                 log_p.error(f"Port ID Not Provided in Appliance Port Config: {appliance_port_config}\n")
+                time.sleep(0.3)
                 continue
             else:
                 del appliance_port_config['portId']
